@@ -99,6 +99,8 @@ main(int argc, char *argv[]) {
 			selbgcolor = argv[++i];
 		else if(!strcmp(argv[i], "-sf"))  /* selected foreground color */
 			selfgcolor = argv[++i];
+		else if(!strcmp(argv[i], "-tm"))  /* top/bottom text margin */
+			textmargin = atoi(argv[++i]);
 		else
 			usage();
 
@@ -166,6 +168,7 @@ drawmenu(void) {
 	dc->x = 0;
 	dc->y = 0;
 	dc->h = bh;
+	dc->tm = textmargin;
 	drawrect(dc, 0, 0, mw, mh, True, BG(dc, normcol));
 
 	if(prompt && *prompt) {
@@ -177,7 +180,7 @@ drawmenu(void) {
 	dc->w = (lines > 0 || !matches) ? mw - dc->x : inputw;
 	drawtext(dc, text, normcol);
 	if((curpos = textnw(dc, text, cursor) + dc->h/2 - 2) < dc->w)
-		drawrect(dc, curpos, 2, 1, dc->h - 4, True, FG(dc, normcol));
+		drawrect(dc, curpos, dc->tm + 1, 1, dc->h - 2 * (dc->tm + 1), True, FG(dc, normcol));
 
 	if(lines > 0) {
 		/* draw vertical list */
@@ -551,7 +554,7 @@ setup(void) {
 	utf8 = XInternAtom(dc->dpy, "UTF8_STRING", False);
 
 	/* calculate menu geometry */
-	bh = dc->font.height + 2;
+	bh = dc->font.height + 2 * textmargin;
 	lines = MAX(lines, 0);
 	mh = (lines + 1) * bh;
 #ifdef XINERAMA
@@ -622,6 +625,6 @@ setup(void) {
 void
 usage(void) {
 	fputs("usage: dmenu [-b] [-f] [-i] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
-	      "             [-nb color] [-nf color] [-sb color] [-sf color] [-v]\n", stderr);
+	      "             [-nb color] [-nf color] [-sb color] [-sf color] [-tm margin] [-v]\n", stderr);
 	exit(EXIT_FAILURE);
 }

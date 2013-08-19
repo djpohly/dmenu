@@ -12,6 +12,7 @@ static const char *selbgcolor  = "#005577"; /* -sb option; selected background  
 static const char *selfgcolor  = "#eeeeee"; /* -sf option; selected foreground               */
 static const char *outbgcolor  = "#00ffff";
 static const char *outfgcolor  = "#000000";
+static unsigned int textmargin = 1;         /* -tm option; top/bottom text margin in pixels  */
 /* -l option; if nonzero, dmenu uses vertical list with given number of lines */
 static unsigned int lines = 0;
 

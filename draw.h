@@ -6,7 +6,7 @@
 enum { ColBG, ColFG, ColBorder, ColLast };
 
 typedef struct {
-	int x, y, w, h;
+	int x, y, w, h, tm;
 	Bool invert;
 	Display *dpy;
 	GC gc;
