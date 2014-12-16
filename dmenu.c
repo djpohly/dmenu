@@ -538,6 +538,7 @@ setup(void) {
 	Window root = RootWindow(dc->dpy, screen);
 	XSetWindowAttributes swa;
 	XIM xim;
+	XClassHint *cls;
 #ifdef XINERAMA
 	int n;
 	XineramaScreenInfo *info;
@@ -611,6 +612,11 @@ setup(void) {
 	                    DefaultDepth(dc->dpy, screen), CopyFromParent,
 	                    DefaultVisual(dc->dpy, screen),
 	                    CWOverrideRedirect | CWBackPixel | CWEventMask, &swa);
+	/* set class property */
+	cls = XAllocClassHint();
+	cls->res_name = cls->res_class = "dmenu";
+	XSetClassHint(dc->dpy, win, cls);
+	XFree(cls);
 
 	/* open input methods */
 	xim = XOpenIM(dc->dpy, NULL, NULL, NULL);
